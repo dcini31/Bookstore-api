@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const models = require("../../models/init-models")(sequelize); // Adjust path as needed
+const models = require("../../models/init-models")(sequelize);
 
 /**
  * @route GET /api/orders
@@ -9,21 +9,30 @@ const models = require("../../models/init-models")(sequelize); // Adjust path as
  */
 router.get("/", async (req, res) => {
   try {
-    const orders = await models.Order.findAll({
+    const orders = await models.Orders.findAll({
       include: [
         {
-          model: models.Book,
-          attributes: ["title", "author", "price"],
+          model: models.OrderDetails,
+          include: [
+            {
+              model: models.Books,
+              attributes: ["title", "author", "price"],
+            },
+          ],
         },
       ],
     });
 
+    // Format the response for each order to include the required details
     const formattedOrders = orders.map((order) => ({
-      orderId: order.id,
-      bookTitle: order.Book.title,
-      author: order.Book.author,
-      price: order.Book.price,
-      quantity: order.quantity,
+      orderId: order.order_id,
+      orderDate: order.order_date,
+      books: order.OrderDetails.map((detail) => ({
+        bookTitle: detail.Book.title,
+        author: detail.Book.author,
+        price: detail.Book.price,
+        quantity: detail.quantity,
+      })),
     }));
 
     res.json(formattedOrders);

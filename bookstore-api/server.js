@@ -22,13 +22,25 @@ const models = initModels(sequelize);
   }
 })();
 
-// API Endpoint
+// Customers API Endpoint
 app.get("/api/customers", async (req, res) => {
   try {
     const customers = await models.Customers.findAll();
-    res.json(customers); // Sends JSON response directly
+    res.status(200);
+    res.json(customers);
   } catch (error) {
     console.error("Error fetching customers:", error);
+    res.status(500).json({ error: "Internal server error" }); // Handles errors
+  }
+});
+
+// Order Details API Endpoint
+app.get("/api/orders", async (req, res) => {
+  try {
+    const orders = await models.Orders.findAll();
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error("Error fetching orders:", error);
     res.status(500).json({ error: "Internal server error" }); // Handles errors
   }
 });
