@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const { Sequelize } = require("sequelize");
 const initModels = require("./models/init-models");
+const OrderDetails = require("./models/OrderDetails");
 
 //Setting SQL Server Connection
 const sequelize = new Sequelize("Bookstore", "Daniel", "20naD5013*", {
@@ -26,7 +27,11 @@ const models = initModels(sequelize);
 app.get("/api/customers", async (req, res) => {
   try {
     const customers = await models.Customers.findAll();
-    res.status(200);
+
+    // Set Cache-Control headers
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", 0);
     res.json(customers);
   } catch (error) {
     console.error("Error fetching customers:", error);
@@ -37,11 +42,42 @@ app.get("/api/customers", async (req, res) => {
 // Order Details API Endpoint
 app.get("/api/orders", async (req, res) => {
   try {
-    const orders = await models.Orders.findAll();
-    res.status(200).json(orders);
+    const orders = await models.Orders.findAll({
+      include: [
+        {
+          model: models.OrderDetails,
+          as: "OrderDetails",
+          include: [
+            {
+              model: models.Books,
+              as: "book",
+              include: [{ model: models.Authors, as: "author" }], // Include author info if needed
+            },
+          ],
+        },
+      ],
+    });
+
+    const formattedOrders = orders.map((order) => {
+      return {
+        order_id: order.OrderDetails[0].order_id,
+        order_details: order.OrderDetails.map((item) => ({
+          book_title: item.book.title,
+          author: item.book.author.name,
+          price: item.book.price,
+          quantity: item.quantity,
+        })),
+      };
+    });
+    // Set Cache-Control headers
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", 0);
+
+    res.status(200), res.json(formattedOrders);
   } catch (error) {
     console.error("Error fetching orders:", error);
-    res.status(500).json({ error: "Internal server error" }); // Handles errors
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
