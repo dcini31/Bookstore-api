@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const { Sequelize } = require("sequelize");
 const initModels = require("./models/init-models");
+// const cors = require("cors");
 
 //Setting SQL Server Configuration
 const sequelize = new Sequelize("Bookstore", "Daniel", "20naD5013*", {
