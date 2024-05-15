@@ -1,0 +1,34 @@
+{
+	"info": {
+		"_postman_id": "173bdefc-7694-4611-a5aa-25220b54fe9c",
+		"name": "BookStore",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20271844"
+	},
+	"item": [
+		{
+			"name": "Order Details Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Customer Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Wrong Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

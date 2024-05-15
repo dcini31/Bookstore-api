@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "f7487dee-6ac7-4a93-859f-1882d97cbf03",
+		"name": "Bookstore-client",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20271844"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Wrong Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Successful Request for Orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Orders Page - GET",
+							"pm.test(\"Orders page loads successfully\", function () {",
+							"  pm.response.to.have.status(200); ",
+							"});",
+							"",
+							"// Test to check the length of the response data",
+							"pm.test(\"Response data length is greater than 0\", function () {",
+							"    const responseData = pm.response.text();",
+							"    pm.expect(responseData.length).to.be.greaterThan(0, \"Response data should not be empty\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:3001/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Successful Request for Customers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Orders Page - GET",
+							"pm.test(\"Orders page loads successfully\", function () {",
+							"  pm.response.to.have.status(200); ",
+							"});",
+							"",
+							"// Test to check the length of the response data",
+							"pm.test(\"Response data length is greater than 0\", function () {",
+							"    const responseData = pm.response.text();",
+							"    pm.expect(responseData.length).to.be.greaterThan(0, \"Response data should not be empty\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:3001/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

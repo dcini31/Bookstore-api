@@ -6,11 +6,13 @@ import styles from "../page.module.css";
 const recordsPerPage = 5;
 
 export default function Orders() {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
+  //State variables
+  const [data, setData] = useState([]); // Stores all orders data
+  const [isLoading, setIsLoading] = useState(true); //Flag for loading state
+  const [error, setError] = useState(null); //Stores any errors during data fetching
+  const [currentPage, setCurrentPage] = useState(1); //Current page number
 
+  //Gets orders data on component mount
   useEffect(() => {
     const fetchOrdersData = async () => {
       try {
@@ -31,6 +33,7 @@ export default function Orders() {
     fetchOrdersData();
   }, []);
 
+  //Loading and error handling
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -39,6 +42,7 @@ export default function Orders() {
     return <div>Error: {error.message}</div>;
   }
 
+  //Pagination
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
   const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
@@ -82,6 +86,7 @@ export default function Orders() {
           ))}
         </tbody>
       </table>
+      {/* Pagination Controls */}
       <div>
         <ul className="pagination">
           {[...Array(nPages + 1).keys()].slice(1).map((page) => (
