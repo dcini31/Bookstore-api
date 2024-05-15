@@ -3,10 +3,13 @@
 import React, { useState, useEffect } from "react";
 import styles from "../page.module.css";
 
+const recordsPerPage = 5;
+
 export default function Customers() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -36,6 +39,15 @@ export default function Customers() {
     return <div>Error: {error.message}</div>;
   }
 
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
+  const nPages = Math.ceil(data.length / recordsPerPage);
+
+  const changePage = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <main className={styles.main}>
       <table className={styles.dataTable}>
@@ -48,7 +60,7 @@ export default function Customers() {
           </tr>
         </thead>
         <tbody>
-          {data.map((customer) => (
+          {currentRecords.map((customer) => (
             <tr key={customer.customer_id}>
               <td>{customer.customer_id}</td>
               <td>{customer.name}</td>
@@ -58,6 +70,20 @@ export default function Customers() {
           ))}
         </tbody>
       </table>
+      <div>
+        <ul className="pagination">
+          {[...Array(nPages + 1).keys()].slice(1).map((page) => (
+            <li
+              className={`page-item ${currentPage === page ? "active" : ""}`}
+              key={page}
+            >
+              <button className="page-link" onClick={() => changePage(page)}>
+                {page}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </main>
   );
 }
