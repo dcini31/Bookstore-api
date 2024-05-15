@@ -55,7 +55,7 @@ export default function Orders() {
                 <td rowSpan={order.order_details.length}>{order.order_id}</td>
                 <td>{order.order_details[0].book_title}</td>
                 <td>{order.order_details[0].author}</td>
-                <td>{order.order_details[0].price}</td>
+                <td>€ {order.order_details[0].price}</td>
                 <td>{order.order_details[0].quantity}</td>
               </tr>
               {order.order_details.slice(1).map((detail) => (
