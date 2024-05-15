@@ -5,7 +5,7 @@ const initModels = require("./models/init-models");
 // const cors = require("cors");
 
 //Setting SQL Server Configuration
-const sequelize = new Sequelize("Bookstore", "Daniel", "20naD5013*", {
+const sequelize = new Sequelize("Bookstore", "Daniel", "pass", {
   host: "localhost",
   dialect: "mssql",
 });
